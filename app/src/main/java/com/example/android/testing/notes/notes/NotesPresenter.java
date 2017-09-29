@@ -36,6 +36,8 @@ public class NotesPresenter implements NotesContract.UserActionsListener {
     private final NotesRepository mNotesRepository;
     private final NotesContract.View mNotesView;
 
+    private String a;
+
     public NotesPresenter(
             @NonNull NotesRepository notesRepository, @NonNull NotesContract.View notesView) {
         mNotesRepository = checkNotNull(notesRepository, "notesRepository cannot be null");
@@ -44,28 +46,28 @@ public class NotesPresenter implements NotesContract.UserActionsListener {
 
     @Override
     public void loadNotes(boolean forceUpdate) {
-//        mNotesView.setProgressIndicator(true);
-//        if (forceUpdate) {
-//            mNotesRepository.refreshData();
-//        }
-//
-//        // The network request might be handled in a different thread so make sure Espresso knows
-//        // that the app is busy until the response is handled.
-//        EspressoIdlingResource.increment(); // App is busy until further notice
-//
-//        mNotesRepository.getNotes(new NotesRepository.LoadNotesCallback() {
-//            @Override
-//            public void onNotesLoaded(List<Note> notes) {
-//                EspressoIdlingResource.decrement(); // Set app as idle.
-//                mNotesView.setProgressIndicator(false);
-//                mNotesView.showNotes(notes);
-//            }
-//        });
+        mNotesView.setProgressIndicator(true);
+        if (forceUpdate) {
+            mNotesRepository.refreshData();
+        }
+
+        // The network request might be handled in a different thread so make sure Espresso knows
+        // that the app is busy until the response is handled.
+        EspressoIdlingResource.increment(); // App is busy until further notice
+
+        mNotesRepository.getNotes(new NotesRepository.LoadNotesCallback() {
+            @Override
+            public void onNotesLoaded(List<Note> notes) {
+                EspressoIdlingResource.decrement(); // Set app as idle.
+                mNotesView.setProgressIndicator(false);
+                mNotesView.showNotes(notes);
+            }
+        });
     }
 
     @Override
     public void addNewNote() {
-//        mNotesView.showAddNote();
+        mNotesView.showAddNote();
     }
 
     @Override
